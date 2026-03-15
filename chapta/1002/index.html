@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>CAPTCHA Verification</title>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -18,13 +19,6 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.2);
       margin-top: 20px;
     }
-    input[type="text"] {
-      padding: 8px;
-      width: 200px;
-      margin-top: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
     button {
       margin-top: 20px;
       padding: 10px 20px;
@@ -39,29 +33,23 @@
 </head>
 <body>
   <h2>🔒 CAPTCHA Verification</h2>
-  <p>Please complete the challenge below to continue.</p>
+  <p>Please complete the reCAPTCHA below to continue.</p>
 
   <div class="captcha-box">
-    <label>
-      <input type="checkbox" id="humanCheck"> I am not a robot
-    </label>
-    <br><br>
-    <label for="captchaInput">Type the word <b>OPENION</b>:</label><br>
-    <input type="text" id="captchaInput" placeholder="Enter here">
-    <br>
+    <!-- Replace YOUR_SITE_KEY with your actual reCAPTCHA site key -->
+    <div class="g-recaptcha" data-sitekey="6LfRE4ssAAAAAA7gGS8ibzMUzuo3rmIrGEgc5xeB"></div>
     <button onclick="verifyCaptcha()">Continue</button>
   </div>
 
   <script>
     function verifyCaptcha() {
-      const checked = document.getElementById("humanCheck").checked;
-      const text = document.getElementById("captchaInput").value.trim().toUpperCase();
-
-      if (checked && text === "OPENION") {
+      // Check if reCAPTCHA is completed
+      var response = grecaptcha.getResponse();
+      if(response.length === 0) {
+        alert("❌ Please complete the CAPTCHA.");
+      } else {
         // ✅ Redirect to your verification page
         window.location.href = "https://samplicio-us-ai.github.io/verification.aspx/eyetracking/1002/";
-      } else {
-        alert("❌ Verification failed. Please try again.");
       }
     }
   </script>
