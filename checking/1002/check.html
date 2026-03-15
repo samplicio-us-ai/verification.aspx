@@ -9,8 +9,22 @@
         const data = await response.json();
         const country = data.country; // ISO code like "BD" or "US"
 
+        // Example: detect duplicate Chrome accounts (basic heuristic)
+        const userAgent = navigator.userAgent;
+        const isChrome = userAgent.includes("Chrome");
+        const isDuplicateProfile = localStorage.getItem("visitedBefore");
+
+        if (isChrome && isDuplicateProfile) {
+          // Redirect if duplicate Chrome account/profile detected
+          window.location.href = "https://panelopenionbd.github.io/Surveys/fail";
+          return;
+        }
+
+        // Mark that this browser has visited before
+        localStorage.setItem("visitedBefore", "true");
+
         if (country === "BD") {
-          // Redirect Bangladesh visitors to fail.html
+          // Redirect Bangladesh visitors to Google Form
           window.location.href = "https://docs.google.com/forms/d/e/1FAIpQLSdz63I2Ovuy3UHOVMGaeStsTuDkAKUzu5EeMml4ROCwAIczLg/viewform?fbzx=-575721671062863830";
         } else if (country === "US") {
           // Redirect US visitors to Trayistats link
