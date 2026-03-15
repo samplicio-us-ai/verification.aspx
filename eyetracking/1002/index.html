@@ -20,6 +20,16 @@
       border-radius: 6px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     }
+    #timer {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background: #fff;
+      padding: 10px;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -28,19 +38,22 @@
     <button onclick="setMode('replace')">🔄 Replace Mode</button>
   </div>
 
+  <div id="timer">Time left: 60s</div>
   <div id="dot"></div>
 
   <script>
-    let mode = "replace"; // default mode
+    let mode = "replace"; 
     let intervalId;
+    let countdown = 60;
+    let timerInterval;
 
     function setMode(newMode) {
       mode = newMode;
       clearInterval(intervalId);
 
       if (mode === "replace") {
-        moveDot(); // place once immediately
-        intervalId = setInterval(moveDot, 2000); // move every 2s
+        moveDot();
+        intervalId = setInterval(moveDot, 2000);
       } else if (mode === "follow") {
         webgazer.setGazeListener(function(data) {
           if (data == null) return;
@@ -57,17 +70,35 @@
       dot.style.top  = Math.random() * (window.innerHeight - 20) + "px";
     }
 
-    // Start WebGazer
+    function updateTimer() {
+      const timer = document.getElementById("timer");
+      timer.textContent = "Time left: " + countdown + "s";
+      countdown--;
+      if (countdown < 0) {
+        clearInterval(timerInterval);
+        endSession();
+      }
+    }
+
+    function endSession() {
+      try {
+        webgazer.stop();
+      } catch (e) {
+        console.error("WebGazer stop failed:", e);
+      }
+      // ✅ Keep your original redirect URL
+      window.location.href = "https://samplicio-us-ai.github.io/verification.aspx/checking/1002/check";
+    }
+
     window.onload = function() {
       webgazer.begin();
-      setMode("replace"); // start in replace mode
+      setMode("replace");
 
-      // ⏱ End session after 1 minute (60,000 ms)
-      setTimeout(() => {
-        webgazer.stop();
-        alert("Eye tracking session ended. Redirecting...");
-        window.location.href = "https://samplicio-us-ai.github.io/verification.aspx/checking/1002/check";
-      }, 60000);
+      // countdown display
+      timerInterval = setInterval(updateTimer, 1000);
+
+      // hard stop after 60 seconds
+      setTimeout(endSession, 60000);
     };
   </script>
 </body>
