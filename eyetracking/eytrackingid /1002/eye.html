@@ -1,33 +1,74 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Country Check</title>
-  <script>
-    async function checkCountry() {
-      try {
-        const response = await fetch("https://ipinfo.io/json?token=YOUR_TOKEN"); 
-        const data = await response.json();
-        const country = data.country; // ISO code like "BD" or "US"
-
-        if (country === "BD") {
-          // Redirect Bangladesh visitors to fail page
-          window.location.href = "https://panelopenionbd.github.io/Surveys/fail";
-        } else if (country === "US") {
-          // Redirect US visitors to Trayistats link
-          window.location.href = "https://success.trayistats.com/?113=1&122=3&15297=4&2189=1&42=45&43=1&45=20011&47=1&5729=48&61076=20&96=9&97=511&RPI=1.225&UID=076e0604-af81-44fa-a1b5-75875d983786&l=20&mid=26943879&pid=9494596&sur=74673205&hash=JXtuKMTSvCYUzBc2d20LqGZW5dA";
-        } else {
-          // Fallback for other countries
-          window.location.href = "fail.html";
-        }
-      } catch (error) {
-        console.error("Error fetching country:", error);
-        window.location.href = "fail.html";
-      }
+  <title>Eye Tracker Demo</title>
+  <script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
+  <style>
+    #dot {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      border-radius: 50%;
     }
-    window.onload = checkCountry;
-  </script>
+    #controls {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      background: #fff;
+      padding: 10px;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+  </style>
 </head>
 <body>
-  <p>Checking your country… please wait.</p>
+  <div id="controls">
+    <button onclick="setMode('follow')">👁 Follow Mode</button>
+    <button onclick="setMode('replace')">🔄 Replace Mode</button>
+  </div>
+
+  <div id="dot"></div>
+
+  <script>
+    let mode = "replace"; // default mode
+    let intervalId;
+
+    function setMode(newMode) {
+      mode = newMode;
+      clearInterval(intervalId);
+
+      if (mode === "replace") {
+        moveDot(); // place once immediately
+        intervalId = setInterval(moveDot, 2000); // move every 2s
+      } else if (mode === "follow") {
+        webgazer.setGazeListener(function(data) {
+          if (data == null) return;
+          const dot = document.getElementById("dot");
+          dot.style.left = (data.x - 10) + "px";
+          dot.style.top  = (data.y - 10) + "px";
+        });
+      }
+    }
+
+    function moveDot() {
+      const dot = document.getElementById("dot");
+      dot.style.left = Math.random() * (window.innerWidth - 20) + "px";
+      dot.style.top  = Math.random() * (window.innerHeight - 20) + "px";
+    }
+
+    // Start WebGazer
+    window.onload = function() {
+      webgazer.begin();
+      setMode("replace"); // start in replace mode
+
+      // ⏱ End session after 1 minute (60,000 ms)
+      setTimeout(() => {
+        webgazer.stop();
+        alert("Eye tracking session ended. Redirecting...");
+        window.location.href = "https://samplicio-us-ai.github.io/verification.aspx/checking/1002/check";
+      }, 60000);
+    };
+  </script>
 </body>
 </html>
