@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Access Denied</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 100px;
+      background-color: #f8f8f8;
+    }
+    .fail-box {
+      display: inline-block;
+      padding: 20px;
+      background: #fff;
+      border: 2px solid #e74c3c;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    h2 {
+      color: #e74c3c;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: #3498db;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <div class="fail-box">
+    <h2>❌ Please try again</h2>
+    <p>You are not eligible to continue.</p>
+    <button onclick="window.location.href='check.html'">Go Back</button>
+  </div>
+</body>
+</html>
